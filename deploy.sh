@@ -3,7 +3,7 @@
 ENV="$NODE_ENV";
 
 cd ./api
-git pull origin dev;
+git pull origin master;
 
 sudo docker build -t notify2-api ./
 
