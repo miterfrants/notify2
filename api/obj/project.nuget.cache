@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9hiv5FPR/Zrr/y1aU55QJKV9w8Nx7NiMYuSqOdpMS50UdsqYaxPtB5oEARXDSGSJlXzmsaNxIrdYTRtndVsZsw==",
+  "dgSpecHash": "y0j+PstCl1iVkyGWSArdEr1OEsCxn9lEM0nLzao1DWbdqJ5yoNzj93+OjwpcfRqyUqarpWoSXNnmUsXSHVaujw==",
   "success": true,
-  "projectFilePath": "/Users/huangpo-hsiang/project/notify2/api/AuthApi.csproj",
+  "projectFilePath": "/Users/huangpo-hsiang/project/notify2/api/api.csproj",
   "expectedPackageFiles": [
     "/Users/huangpo-hsiang/.nuget/packages/awssdk.core/3.7.0.42/awssdk.core.3.7.0.42.nupkg.sha512",
     "/Users/huangpo-hsiang/.nuget/packages/awssdk.simpleemailv2/3.7.0.40/awssdk.simpleemailv2.3.7.0.40.nupkg.sha512",

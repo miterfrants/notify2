@@ -8214,9 +8214,9 @@
   "project": {
     "version": "5.0.0-alpha.12",
     "restore": {
-      "projectUniqueName": "/Users/huangpo-hsiang/project/notify2/api/AuthApi.csproj",
+      "projectUniqueName": "/Users/huangpo-hsiang/project/notify2/api/api.csproj",
       "projectName": "Homo.AuthApi",
-      "projectPath": "/Users/huangpo-hsiang/project/notify2/api/AuthApi.csproj",
+      "projectPath": "/Users/huangpo-hsiang/project/notify2/api/api.csproj",
       "packagesPath": "/Users/huangpo-hsiang/.nuget/packages/",
       "outputPath": "/Users/huangpo-hsiang/project/notify2/api/obj/",
       "projectStyle": "PackageReference",

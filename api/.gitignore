@@ -1,2 +1,4 @@
 secrets.json
-appsetting.json
+appsettings.json
+obj
+bin
