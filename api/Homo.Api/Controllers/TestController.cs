@@ -13,7 +13,7 @@ namespace Homo.Api
         [HttpGet]
         public dynamic getTest()
         {
-            return new { project = "Homo.Api" };
+            return new { project = "Notify2 Api" };
         }
 
         [HttpPost]
