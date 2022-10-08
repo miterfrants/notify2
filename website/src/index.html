@@ -89,7 +89,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-SNXGW8JECF');
+        gtag('config', 'UA-244926912-1');
     </script>
 </head>
 
@@ -123,10 +123,7 @@
         </div>
         <!--p class="txt-sm">(收到通知, 才會索取費用)</p-->
     </div>
-    <div class="d-none card success-card">
-        <h3 style="text-align: center;">感謝你的訂閱, 我們會盡快完成服務
-        </h3>
-    </div>
+
     <script type="module">
         import {APP_CONFIG} from './config.js';
         const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -186,8 +183,7 @@
                 return;
             }
 
-            document.querySelector('.form').classList.add('d-none');
-            document.querySelector('.success-card').classList.remove('d-none');
+            location.href = './success.html';
         }
 
         function _validate() {
