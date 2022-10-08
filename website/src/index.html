@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="og:description" content="松雪樓 空房釋出簡訊通知" />
+    <meta name="description" content="松雪樓 空房釋出簡訊通知" />
+    <title>Notify 2</title>
+    <style>
+        .d-flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .flex-column {
+            flex-flow: column;
+        }
+
+        .align-items-top {
+            align-items: flex-start;
+        }
+
+        .txt-sm {
+            font-size: 12px;
+            color: gray;
+        }
+
+        .py-1 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .px-2 {
+            padding-left: 1.0rem;
+            padding-right: 1.0rem;
+        }
+
+        .m-0 {
+            margin: 0;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+
+        .mr-3 {
+            margin-right: 1.5rem;
+        }
+
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+
+        .normal-line-height {
+            line-height: 1.0rem;
+        }
+
+        .txt-fail {
+            color: #f37474;
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        .card {
+            width: 400px;
+            background-color: white;
+            padding: 20px 40px 50px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #e7e7e7;
+            border: 1px solid #ccc;
+            margin-top: 40px;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNXGW8JECF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-SNXGW8JECF');
+    </script>
+</head>
+
+<body class="d-flex" style="justify-content: center; background-color: #f3f3f3; color: #808080;">
+
+    <div class="d-flex flex-column card form">
+        <h1>松雪樓空房釋出通知</h1>
+        <div>
+            <p>
+                目前正在確認市場需求, 如果你非常希望透過這個服務訂到房, 麻煩在下方留下你的聯絡資訊, 我們會在完成這個服務第一時間通知你
+            </p>
+
+            <p>
+                服務啟用後你希望用多少金額使用這個服務<br />
+                <div>
+                    $ <input onkeyup="keyupHandler(event)" class="fee m-0 mt-1 py-1 px-2 normal-line-height"
+                        style="width: 50px;" type="number" value="50" />
+                    <div class="fee-error-message txt-sm mt-1 txt-fail"></div>
+                </div>
+            </p>
+        </div>
+        <hr class="m-0"
+            style="height: 1px; width: 100%; background-color: gray; visibility: visible !important; border: none;" />
+        <div class="d-flex mt-3 align-items-top">
+            <div>
+                <input onkeyup="keyupHandler(event)" class="email-or-phone m-0 mr-3 py-1 px-2 normal-line-height"
+                    type="text" placeholder="email 或是 手機號碼" />
+                <div class="error-message txt-sm mt-1 txt-fail"></div>
+            </div>
+            <button onclick="submit()" class="m-0 py-1 px-2 normal-line-height">訂閱</button>
+        </div>
+        <!--p class="txt-sm">(收到通知, 才會索取費用)</p-->
+    </div>
+    <div class="d-none card success-card">
+        <h3 style="text-align: center;">感謝你的訂閱, 我們會盡快完成服務
+        </h3>
+    </div>
+    <script type="module">
+        import {APP_CONFIG} from './config.js';
+        const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const phoneRegExp = /^09[0-9]{8}$/gi;
+
+        function _fetch(url, options) {
+            return new Promise((resolve, reject) => {
+                fetch(url, options).then((resp) => {
+                    return resp.json();
+                }).then((json) => {
+                    resolve(json);
+                }).catch((error) => {
+                    reject(error);
+                });
+            })
+
+        }
+
+        window.keyupHandler = function(event) {
+            if (event.keyCode === 13) {
+                submit();
+            }
+        }
+
+        window.submit = async function() {
+            const elErrorMessage = document.querySelector('.error-message');
+            const elButton = document.querySelector('button');
+            elButton.setAttribute('disabled', 'disabled');
+            elErrorMessage.innerHTML = '';
+            const validatedResult = _validate();
+            if (!validatedResult.isValid) {
+                document.querySelector('.error-message').innerHTML = validatedResult.detail
+                    .filter(item => item.field === 'emailOrPhone')
+                    .map(item => item.message)
+                    .join(' ');
+                document.querySelector('.fee-error-message').innerHTML = validatedResult.detail
+                    .filter(item => item.field === 'fee')
+                    .map(item => item.message)
+                    .join(' ');
+                elButton.removeAttribute('disabled');
+                return;
+            }
+
+            const resp = await  _fetch(`${APP_CONFIG.API_ENDPOINT}early-adopter`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: validatedResult.email,
+                    phone: validatedResult.phone,
+                    fee: validatedResult.fee
+                })
+            });
+            elButton.removeAttribute('disabled');
+            if(resp.status !== 'OK')  {
+                return;
+            }
+
+            document.querySelector('.form').classList.add('d-none');
+            document.querySelector('.success-card').classList.remove('d-none');
+        }
+
+        function _validate() {
+            const elEmailOrPhone = document.querySelector('.email-or-phone');
+            const elFee = document.querySelector('.fee');
+            const value = elEmailOrPhone.value;
+            let isValid = true;
+            const detail = [];
+            const isEmail = emailRegExp.test(value);
+            const isPhone = phoneRegExp.test(value);
+            if (!value) {
+                isValid = false;
+                detail.push({
+                    field: 'emailOrPhone',
+                    message: '電話 或是 email 不能留白'
+                });
+            } else if (!isEmail && !isPhone) {
+                isValid = false;
+                detail.push({
+                    field: 'emailOrPhone',
+                    message: '格式不正確'
+                });
+            }
+
+            if (!elFee.value) {
+                detail.push({
+                    field: 'fee',
+                    message: '金額不能留白'
+                });
+            } else if (Number(elFee.value) < 0) {
+                detail.push({
+                    field: 'fee',
+                    message: '金額不能小於 0'
+                });
+            }
+
+            return {
+                isValid: isValid,
+                detail: detail,
+                isEmail,
+                isPhone,
+                email: isEmail ? value : null,
+                phone: isPhone ? value : null,
+                fee: Number(elFee.value)
+            }
+        }
+    </script>
+</body>
+
+</html>
